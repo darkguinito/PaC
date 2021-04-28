@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pihole-config
+  namespace: pihole-ns
+data:
+  WEBPASSWORD: OwnPiHole
+  TZ: 'Europe/Berlin'
+  DNS1: 80.67.169.12
+  DNS2: 8.8.8.8
+  DNSMASQ_LISTENING: all
