@@ -1,0 +1,90 @@
+version: "3.9"
+
+services:
+  kubectl:
+    image: bitnami/kubectl
+    command: get pods --all-namespaces
+    volumes:
+      - ../creds/kube/:/.kube/:ro
+
+  kustomize:
+    image: traherom/kustomize-docker
+    command: kubectl get pods --all-namespaces
+    volumes:
+      - ../creds/kube/config:/root/.kube/config:ro
+
+  setup-monitoring:
+    image: bitnami/kubectl
+    command: apply -f /manifests/setup/
+    volumes:
+      - ./cluster-monitoring/manifests/:/manifests/
+      - ../creds/kube:/.kube
+
+  unsetup-monitoring:
+    image: bitnami/kubectl
+    command: delete -f /manifests/setup/
+    volumes:
+      - ./cluster-monitoring/manifests/:/manifests/
+      - ../creds/kube/:/.kube/
+
+  deploy-monitoring:
+    image: bitnami/kubectl
+    command: apply -f /manifests/
+    volumes:
+      - ./cluster-monitoring/manifests/:/manifests/
+      - ../creds/kube/:/.kube/
+
+  undeploy-monitoring:
+    image: bitnami/kubectl
+    command: delete -f /manifests/
+    volumes:
+      - ./cluster-monitoring/manifests/:/manifests/
+      - ../creds/kube/:/.kube/
+
+  pihole-setup:
+    image: bitnami/kubectl
+    command: apply -f /manifests/
+    volumes:
+      - ./pihole/:/manifests/
+      - ../creds/kube/:/.kube/
+
+  pihole-unsetup:
+    image: bitnami/kubectl
+    command: delete -f /manifests/
+    volumes:
+      - ./pihole/:/manifests/
+      - ../creds/kube/:/.kube/
+
+  metallb-setup:
+    image: bitnami/kubectl
+    command: apply -f /manifests/
+    volumes:
+      - ./metallb/:/manifests/
+      - ../creds/kube/:/.kube/
+
+  metallb-unsetup:
+    image: bitnami/kubectl
+    command: delete -f /manifests/
+    volumes:
+      - ./metallb/:/manifests/
+      - ../creds/kube/:/.kube/
+
+  test-metallb-setup:
+    image: bitnami/kubectl
+    command: apply -f /manifests/
+    volumes:
+      - ./metallb/test/:/manifests/
+      - ../creds/kube/:/.kube/
+
+  test-metallb-unsetup:
+    image: bitnami/kubectl
+    command: delete -f /manifests/
+    volumes:
+      - ./metallb/test/:/manifests/
+      - ../creds/kube/:/.kube/
+
+  pods:
+    image: bitnami/kubectl
+    command: get pods -n monitoring
+    volumes:
+      - ../creds/kube/:/.kube/
