@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: docker-registry
+  namespace: docker-registry
+spec:
+  rules:
+  - host: docker-registry.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: docker-registry-services
+          servicePort: http-5000

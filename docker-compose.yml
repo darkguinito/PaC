@@ -7,6 +7,18 @@ services:
     volumes:
       - ../creds/kube/:/.kube/:ro
 
+  setup-cert-manager:
+    image: bitnami/kubectl
+    command: apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
+    volumes:
+      - ../creds/kube/:/.kube/:ro
+
+  unsetup-cert-manager:
+    image: bitnami/kubectl
+    command: delete -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
+    volumes:
+      - ../creds/kube/:/.kube/:ro
+
   kustomize:
     image: traherom/kustomize-docker
     command: kubectl get pods --all-namespaces
@@ -88,3 +100,18 @@ services:
     command: get pods -n monitoring
     volumes:
       - ../creds/kube/:/.kube/
+  
+  setup-docker-registry:
+    image: bitnami/kubectl
+    command: apply -f /manifests/
+    volumes:
+      - ./docker-registry/:/manifests/
+      - ../creds/kube:/.kube
+
+  unsetup-docker-registry:
+    image: bitnami/kubectl
+    command: delete -f /manifests/
+    volumes:
+      - ./docker-registry/:/manifests/
+      - ../creds/kube/:/.kube/
+
