@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: docker-registry-pvc
-  namespace: docker-registry
+  namespace: docker-registry-ns
   labels:
     app: docker-registry
     component: registry

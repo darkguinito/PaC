@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: selfsigned-crt
+  namespace: docker-registry-ns
+spec:
+  secretName: tls-secret
+  dnsNames:
+  - docker-registry.home
+  issuerRef:
+    kind: Issuer
+    name: selfsigned

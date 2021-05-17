@@ -1,14 +1,18 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: docker-registry
-  namespace: docker-registry
+  name: docker-registry-ingress
+  namespace: docker-registry-ns
 spec:
   rules:
-  - host: docker-registry.local
+  - host: docker-registry.home
     http:
       paths:
       - path: /
         backend:
-          serviceName: docker-registry-services
-          servicePort: http-5000
+          serviceName: docker-registry-service
+          servicePort: http-tcp
+  tls:
+  - hosts:
+    - docker-registry.home
+    secretName: tls-secret

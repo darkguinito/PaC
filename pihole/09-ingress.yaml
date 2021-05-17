@@ -5,7 +5,7 @@ metadata:
   namespace: pihole-ns
 spec:
   rules:
-  - host: pihole.local
+  - host: pihole.home
     http:
       paths:
       - path: /
@@ -14,4 +14,4 @@ spec:
           servicePort: http-tcp
   tls:
   - hosts:
-    - pihole.local
+    - pihole.home
